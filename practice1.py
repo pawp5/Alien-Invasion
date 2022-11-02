@@ -1,32 +1,40 @@
-import sys
-
 import pygame
 
 pygame.init()
 
+# Setup screen and screen color
+screen = pygame.display.set_mode((1260, 600))
+pygame.display.set_caption("Rocket")
+
+# Raindrop settings
+rain_speed = 1.0
+
+# Load raindrop and get rect
+raindrop = pygame.image.load("images/ship.bmp")
+rect = raindrop.get_rect
+
 def main():
-	# Setup screen and screen color
-	screen = pygame.display.set_mode(1360, 700)
-	screen.fill(230,230,230)
-	pygame.display.set_caption("Rocket")
-	
-	# Load rocket and get rect
-	image = pygame.image.load("images/ship.bmp")
-	rect = image.get_rect
-	
+	"""Game's main loop."""
 	while True:
 		check_events()
-		# Draw image on screen
-		pygame.blit(image, rect)
-	
+		update_rain()
+		update_screen()
+
 def check_events():
-	"""Listens for keyboard events and move accordingly"""
-	for event in pygame.event.get:
+	"""Respond to keyboard events."""
+	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit()
-		elif event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_RIGHT:
-				rect.x += 1
-			elif event == pygame.K_LEFT:
-				rect.x -= 1
-		#elif event.type == pygame.KEYUP:
+		
+	
+def update_rain():
+	"""Update the position of the raindrop."""
+	y += rain_speed
+	rect.y = y
+
+def update_screen():
+		"""Update images on the screen and flip to the new screen."""
+		screen.fill(230, 230, 230)
+		screen.blit(raindrop, rect)
+		raindrop.draw(screen)
+		screen.flip()
