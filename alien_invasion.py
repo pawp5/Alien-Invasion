@@ -79,6 +79,8 @@ class AlienInvasion:
         self.stats.reset_stats()
         self.stats.game_active = True
         self.sb.prep_score()
+        self.sb.prep_level()
+        self.sb.prep_ships()
 
         # Get rid of any remaining aliens and bullets.
         self.aliens.empty()
@@ -99,10 +101,10 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
-        elif event.key == pygame.K_p:
-            self._start_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+            if not self.stats.game_active:
+                self._start_game()
 
     def _check_keyup_events(self, event):
         """Respond to key releases."""
@@ -147,6 +149,10 @@ class AlienInvasion:
             self._create_fleet()
             self.settings.increase_speed()
 
+            # Increase level.
+            self.stats.level += 1
+            self.sb.prep_level()
+
     def _update_aliens(self):
         """
         Check if the fleet is at an edge,
@@ -174,9 +180,10 @@ class AlienInvasion:
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
         if self.stats.ship_left > 0:
-            # Decrement ships_left.
+            # Decrement ships_left, and update scoreboard.
             self.stats.ship_left -= 1
-            
+            self.sb.prep_ships()
+
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
             self.bullets.empty()
