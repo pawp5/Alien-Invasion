@@ -1,5 +1,6 @@
 import sys
 from time import sleep
+import json
 
 import pygame
 
@@ -55,6 +56,7 @@ class AlienInvasion:
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self._check_high_score()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -100,6 +102,7 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
+            self._check_high_score()
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -112,6 +115,15 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+
+    def _check_high_score(self):
+        """Check if there's a new high score and
+            save the high score to an json (external) file."""
+        if self.stats.score >= self.stats.high_score:
+            data = {"Highscore": self.stats.score}
+            
+            with open("game_data.json", "w") as f:
+                json.dump(data, f)          
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
