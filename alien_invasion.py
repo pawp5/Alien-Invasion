@@ -155,15 +155,21 @@ class AlienInvasion:
             self.sb.prep_score()
             self.sb.check_high_score()
 
+        # Initialize new level and increase difficulty.
         if not self.aliens:
-            # Destroy existing bullets, create new fleet and increase difficulty.
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_speed()
+            self._new_level()
+           
 
-            # Increase level.
-            self.stats.level += 1
-            self.sb.prep_level()
+    def _new_level(self):
+        """Start a new level."""
+        # Destroy existing bullets, create new fleet and increase difficulty.
+        self.bullets.empty()
+        self._create_fleet()
+        self.settings.increase_speed()
+
+        # Increase level.
+        self.stats.level += 1
+        self.sb.prep_level()
 
     def _update_aliens(self):
         """
