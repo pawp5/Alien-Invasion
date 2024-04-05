@@ -18,7 +18,7 @@ In Alien Invasion, the player controls a ship that appears at the bottom center 
 
 #### How to play
     git clone https://github.com/pawp5/Alien-Invasion.git
-    pip install -r requirements.txt
     cd alien-invasion-pygame
+    pip install -r requirements.txt
     python alien_invasion.py
 
